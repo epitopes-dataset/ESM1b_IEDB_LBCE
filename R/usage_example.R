@@ -6,11 +6,14 @@ epitopes::get_basic_data("../tmp", datasets = c("taxonomy", "proteins",
                                                 "protein_dissimilarity"))
 
 # Add the desired taxonomy IDs (any taxonomic level should work)
-my_txids <- "2732005"
+my_txid    <- "2732005" # Bamfordvirae
+split_txid <- "10242"   # Orthopox - this is an ID that we want to make sure 
+                        # that is split across as many splits as possible.
+                        # (note: optional. Set to NULL if not needed)
 
 # Retrieve dataset (if multiple ids are provided, returns a list object of the 
 # same length as my_txids)
-X <- get_precomputed_datasets(my_txids,
+X <- get_precomputed_datasets(my_txid,
                               tax_list = readRDS("../tmp/taxonomy.rds"),
                               min_peptide = 5, max_epitope = 25)
 
@@ -20,6 +23,6 @@ X <- make_data_splits(X,
                       proteins = readRDS("../tmp/proteins.rds"), 
                       target_props = rep(1/3, 3), 
                       similarity_threshold = .6, 
-                      id_force_splitting = "10242", # Lowest splitting level (optional)
+                      id_force_splitting = split_txid, # (optional)
                       tax_list = readRDS("../tmp/taxonomy.rds"),
                       diss_matrix = readRDS("../tmp/protein_dissimilarity.rds"))
